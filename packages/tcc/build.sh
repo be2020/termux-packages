@@ -2,11 +2,11 @@ TERMUX_PKG_HOMEPAGE=https://bellard.org/tcc/
 TERMUX_PKG_DESCRIPTION="Tiny C Compiler"
 TERMUX_PKG_LICENSE="LGPL-2.1"
 TERMUX_PKG_MAINTAINER="@termux"
-_COMMIT=bb93bf8cd29140610f0d94f6565501d30215bd98
+_COMMIT=0ec3a40dfd9513f3e803450eaa1ed7833f89568c
 _COMMIT_DATE=20230425
 TERMUX_PKG_VERSION=1:0.9.27-p${_COMMIT_DATE}
 TERMUX_PKG_SRCURL=git+https://repo.or.cz/tinycc.git
-TERMUX_PKG_SHA256=ed447c67ae71a7ebc0754a6cbd3bd11eb06cd24b70b81ac9227eb0e2d01dabdf
+TERMUX_PKG_SHA256=303256ac33b9b38161d8dea31e2c79a49420287175316a7abd9d2d8cba75756f
 TERMUX_PKG_GIT_BRANCH=mob
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_NO_STATICSPLIT=true
@@ -14,7 +14,8 @@ TERMUX_PKG_DEPENDS="ndk-sysroot"
 
 termux_step_post_get_source() {
 	git fetch --unshallow
-	git checkout $_COMMIT
+	# tcc likes to have a real branch name in its version string
+	git reset --hard $_COMMIT
 
 	local pdate="p$(git log -1 --format=%cs | sed 's/-//g')"
 	if [[ "$TERMUX_PKG_VERSION" != *"${pdate}" ]]; then
@@ -75,9 +76,6 @@ termux_step_make() {
 
 		make -j $TERMUX_MAKE_PROCESSES libtcc1.a
 	)
-
-	# tcc likes to have a real branch name in its version string
-	git branch -f $TERMUX_PKG_GIT_BRANCH
 
 	# cross-compile tcc for target
 	./configure \

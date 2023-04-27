@@ -214,7 +214,7 @@ jobs:
 
         # Files containing certain symbols (e.g. ":") will cause failure in actions/upload-artifact.
         # Archiving *.deb files in a tarball to avoid issues with uploading.
-        tar cf artifacts/debs-${{ matrix.target_arch }}-${{ github.sha }}.tar debs
+        tar cf artifacts/debs-${{ matrix.target_arch }}-${{ github.event.inputs.packages }}.tar debs
     - name: Checksums for built *.deb files
       if: always()
       run: |
@@ -223,14 +223,15 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: debs-${{ matrix.target_arch }}-${{ github.sha }}
+        name: debs-${{ matrix.target_arch }}-${{ github.event.inputs.packages }}
         path: ./artifacts
 
   upload:
     concurrency: ${{ github.workflow }}
     permissions:
       contents: read
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: github.event_name == 'xxx_yyy_zzz'
     needs: build
     runs-on: ubuntu-latest
     steps:
