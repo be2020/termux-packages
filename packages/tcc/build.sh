@@ -1,6 +1,6 @@
-_COMMIT=9fb89c23d0f1c25528cb83161d16a846b6cda69c
-_COMMIT_DATE=20241022
-_COMMIT_SHA256=2e48f1fb7b0b30ba74be78a533fc6eb3b565984a695eb7c03d1c934c701a50d3
+_COMMIT=d440ed819cd3bb06d1e34b841c1ede6dcd87842e
+_COMMIT_DATE=20241207
+_COMMIT_SHA256=8531194ed166f9d79932049f9a955479e10a82461aa639c22b5d5e2769be21d8
 
 TERMUX_PKG_HOMEPAGE=https://bellard.org/tcc/
 TERMUX_PKG_DESCRIPTION="Tiny C Compiler"
@@ -35,8 +35,7 @@ termux_step_post_get_source() {
 }
 
 termux_step_configure() {
-	# override default step
-	true
+	:
 }
 
 termux_step_make() {
